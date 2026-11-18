@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div>
+    <h2>Entrar</h2>
+
+    {% if form.errors %}
+        <div class="alert alert-danger" role="alert">
+            Usuário ou senha inválidos. Tente novamente.
+        </div>
+    {% endif %}
+
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Entrar</button>
+        <input type="hidden" name="next" value="{{ next }}">
+    </form>
+</div>
+{% endblock content %}

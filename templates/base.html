@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Orçamento Familiar{% endblock title %}</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-yEPZ7jP9S0QKiUQ0m3jjsO4ProIW7wvR9gXkI7JOGa2XVsw53Yke2bsdkBbjmmiX" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+        <div class="container">
+            <a class="navbar-brand" href="#">Orçamento Familiar</a>
+            
+            <div class="collapse navbar-collapse justify-content-end">
+                <ul class="navbar-nav align-items-center mb-2 mb-lg-0">
+                    {% if user.is_authenticated %}
+                        <li class="nav-item text-light me-3">
+                            Olá, <strong>{{ user.username }}</strong>
+                        </li>
+                        <li class="nav-item">
+                            <form action="{% url 'logout' %}" method="POST" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-outline-light btn-sm">Sair</button>
+                            </form>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'login' %}">Entrar</a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav >
+    <!-- Exibição de Mensagens do Sistema (Alertas) -->
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags|default:'info' }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+        
+    <!-- Conteúdo Principal -->
+    <main class="container py-4">
+        {% block content %}
+        {% endblock content %}
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="text-center py-4 text-muted border-top mt-auto">
+        {% block footer %}&copy; Orçamento Familiar{% endblock footer %}
+    </footer>
+
+    <!-- Bootstrap JS Bundle (necessário para fechar os alertas) -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+</body>
+</html>
