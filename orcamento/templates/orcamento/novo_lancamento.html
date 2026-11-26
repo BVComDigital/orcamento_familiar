@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block title %}Novo Lançamento{% endblock title %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h1 class="mb-1">Novo Lançamento</h1>
+        <p class="text-muted mb-0">Escolha a subcategoria e preencha os dados com atenção.</p>
+    </div>
+    <a href="{% url 'lista_lancamentos' %}" class="btn btn-outline-secondary">Voltar para a lista</a>
+</div>
+
+<form method="post" novalidate>
+    {% csrf_token %}
+
+    {% if form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+            {{ form.non_field_errors }}
+        </div>
+    {% endif %}
+
+    <div class="row g-3">
+        <div class="col-12">
+            <label for="{{ form.descricao.id_for_label }}" class="form-label">
+                {{ form.descricao.label }}
+            </label>
+            {{ form.descricao }}
+            {% if form.descricao.errors %}
+                <div class="text-danger small mt-1">
+                    {{ form.descricao.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <label for="{{ form.subcategoria.id_for_label }}" class="form-label">
+                {{ form.subcategoria.label }}
+            </label>
+            {{ form.subcategoria }}
+            {% if form.subcategoria.errors %}
+                <div class="text-danger small mt-1">
+                    {{ form.subcategoria.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-6">
+            <label for="{{ form.forma_pagamento.id_for_label }}" class="form-label">
+                {{ form.forma_pagamento.label }}
+            </label>
+            {{ form.forma_pagamento }}
+            {% if form.forma_pagamento.errors %}
+                <div class="text-danger small mt-1">
+                    {{ form.forma_pagamento.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-4">
+            <label for="{{ form.valor_total.id_for_label }}" class="form-label">
+                {{ form.valor_total.label }}
+            </label>
+            {{ form.valor_total }}
+            {% if form.valor_total.errors %}
+                <div class="text-danger small mt-1">
+                    {{ form.valor_total.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-4">
+            <label for="{{ form.data_vencimento.id_for_label }}" class="form-label">
+                {{ form.data_vencimento.label }}
+            </label>
+            {{ form.data_vencimento }}
+            {% if form.data_vencimento.errors %}
+                <div class="text-danger small mt-1">
+                    {{ form.data_vencimento.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-4">
+            <label for="{{ form.qtd_parcelas.id_for_label }}" class="form-label">
+                {{ form.qtd_parcelas.label }}
+            </label>
+            {{ form.qtd_parcelas }}
+            {% if form.qtd_parcelas.errors %}
+                <div class="text-danger small mt-1">
+                    {{ form.qtd_parcelas.errors }}
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="col-12">
+            <div class="form-check mt-2">
+                {{ form.pago }}
+                <label for="{{ form.pago.id_for_label }}" class="form-check-label">
+                    {{ form.pago.label }}
+                </label>
+            </div>
+            {% if form.pago.errors %}
+                <div class="text-danger small mt-1">
+                    {{ form.pago.errors }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="d-flex gap-2 mt-4">
+        <button type="submit" class="btn btn-primary">Salvar Lançamento</button>
+        <a href="{% url 'lista_lancamentos' %}" class="btn btn-outline-secondary">Cancelar</a>
+    </div>
+</form>
+{% endblock content %}

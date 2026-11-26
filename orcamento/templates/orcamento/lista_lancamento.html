@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Lançamentos{% endblock title %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Lançamentos</h1>
+    <a href="{% url 'novo_lancamento' %}" class="btn btn-primary">Novo Lançamento</a>
+</div>
+
+<form action="" method="get">
+    <div class="row g-2 mb-4">
+        <label for="mes">Mês</label>
+        <select name="mes" id="mes" class="form-select">
+            <option value="">Todos os meses</option>
+            <option value="1" {% if mes_selecionado == "1" %}selected{% endif %}>Janeiro</option>
+            <option value="2" {% if mes_selecionado == "2" %}selected{% endif %}>Fevereiro</option>
+            <option value="3" {% if mes_selecionado == "3" %}selected{% endif %}>Março</option>
+            <option value="4" {% if mes_selecionado == "4" %}selected{% endif %}>Abril</option>
+            <option value="5" {% if mes_selecionado == "5" %}selected{% endif %}>Maio</option>
+            <option value="6" {% if mes_selecionado == "6" %}selected{% endif %}>Junho</option>
+            <option value="7" {% if mes_selecionado == "7" %}selected{% endif %}>Julho</option>
+            <option value="8" {% if mes_selecionado == "8" %}selected{% endif %}>Agosto</option>
+            <option value="9" {% if mes_selecionado == "9" %}selected{% endif %}>Setembro</option>
+            <option value="10" {% if mes_selecionado == "10" %}selected{% endif %}>Outubro</option>
+            <option value="11" {% if mes_selecionado == "11" %}selected{% endif %}>Novembro</option>
+            <option value="12" {% if mes_selecionado == "12" %}selected{% endif %}>Dezembro</option>
+        </select>
+
+        <input type="number" name="ano" class="form-control" placeholder="Ano (ex: 2026)" value="{{ ano_selecionado }}">
+
+        <label for="status">Status do pagamento</label>
+        <select name="status" id="status" class="form-select">
+            <option value="">Todos</option>
+            <option value="pendente" {% if status_selecionado == "pendente" %}selected{% endif %}>Pendente</option>
+            <option value="pago" {% if status_selecionado == "pago" %}selected{% endif %}>Pago</option>
+        </select>
+        
+
+    </div>
+
+    <div class="col-auto d-flex gap-2">
+    <button type="submit" class="btn btn-secondary">Filtrar</button>
+    <a href="{% url 'lista_lancamentos' %}" class="btn btn-outline-secondary">Limpar</a>
+    </div>
+</form>
+
+
+
+<div class="table-responsive">
+    <table class="table table-striped table-hover align-middle">
+        <thead>
+            <tr>
+                <th scope="col">Subcategoria</th>
+                <th scope="col">Forma de Pagamento</th>
+                <th scope="col">Descriçao</th>
+                <th scope="col">Valor</th>
+                <th scope="col">Data de Vencimento</th>
+                <th scope="col">Parcelas</th>
+                <th scope="col">Pago</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for lancamento in lancamentos %}
+                <tr>
+                    <td>{{ lancamento.subcategoria.nome }}</td>
+                    <td>{{ lancamento.forma_pagamento.nome }}</td>
+                    <td>{{ lancamento.descricao }}</td>
+                    <td>R$ {{ lancamento.valor }}</td>
+                    <td>{{ lancamento.data_vencimento|date:"d/m/Y" }}</td>
+                    <td>{{ lancamento.compra_parcelada }}</td>
+                    <td>
+                        {% if lancamento.pago %}
+                            <span class="badge bg-success">Pago</span>
+                        {% else %}
+                            <span class="badge bg-warning text-dark">Pendente</span>
+                        {% endif %}
+                    </td>
+
+            
+            {% empty %}
+                <tr class="text-center">
+                    <td colspan="7" class="py-4 text-muted">Nenhum lançamento encontrado.</td>
+                </tr>
+
+            {% endfor %}
+            </tr>
+
+        </tbody>
+    </table>
+    
+</div>
+
+{% endblock content %}
